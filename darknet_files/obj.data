@@ -1,5 +1,5 @@
 classes= 2
-train = data/train.txt
-valid = data/test.txt
-names = data/obj.names
+train = train.txt
+valid = test.txt
+names = darknet_files/obj.names
 backup = backup/
