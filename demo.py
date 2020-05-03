@@ -1,5 +1,6 @@
 import sys
 import cv2
+import os
 from Yolo import Yolo
 
 type = sys.argv[1]
@@ -22,6 +23,11 @@ if type == "--VIDEO":
 elif type == "--IMAGE":
     image_input = cv2.imread(path)
     image_output = detector.detect(image_input)
+
+    if not os.path.isdir("output"):
+        os.mkdir("output")
+    save_path = "output/" + path.split('/')[2]
+    cv2.imwrite(save_path, image_output)
 
     cv2.imshow("Output", image_output)
     cv2.waitKey(0)
