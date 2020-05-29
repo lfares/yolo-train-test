@@ -21,10 +21,25 @@ class Yolo():
         for cat, score, bounds in results:
             x, y, w, h = bounds
             if cat.decode("utf-8") == "pinga":
-                cv2.rectangle(frame, (int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)), self.pinga_color, 3)
+                cv2.rectangle(frame, (int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)), self.pinga_color, 8)
+                self.text_with_background(frame, self.pinga_color, "pinga", bounds)
             elif cat.decode("utf-8") == "emily":
-                cv2.rectangle(frame, (int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)), self.emily_color, 3)
-            cv2.putText(frame, str(cat.decode("utf-8")), (int(x),int(y)),
-                        cv2.FONT_HERSHEY_COMPLEX, 3, (255,255,255))
+                cv2.rectangle(frame, (int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)), self.emily_color, 8)
+                self.text_with_background(frame, self.emily_color, "emily", bounds)
+        
 
         return frame
+
+    def text_with_background(self, img, rectangle_bgr, text, bounds):
+        font = cv2.FONT_HERSHEY_SIMPLEX 
+        font_scale = 3
+        x, y, w, h = bounds
+        # get the width and height of the text box
+        (text_width, text_height) = cv2.getTextSize(text, font, font_scale, thickness=4)[0]
+        # set the text start position
+        text_offset_x = int(x-w/2) 
+        text_offset_y = int(y-h/2)
+        # make the coords of the box with a small padding of two pixels
+        box_coords = ((text_offset_x, text_offset_y), (text_offset_x + text_width + 50, text_offset_y - text_height - 50))
+        cv2.rectangle(img, box_coords[0], box_coords[1], rectangle_bgr, cv2.FILLED)
+        cv2.putText(img, text, (text_offset_x+25, text_offset_y-25), font, font_scale, color=(255, 255, 255), thickness=3)

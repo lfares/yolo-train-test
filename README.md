@@ -8,7 +8,7 @@ Now it is only working with images using the file demo.py
 
 The images used for training are on the folder darknet_files, as well as the files needed for a new training.
 
-A tutorial for how to use them can be found at [AlexyAB repo](https://github.com/AlexeyAB/darknet).
+A tutorial on how to use them can be found at [AlexyAB repo](https://github.com/AlexeyAB/darknet).
 
 ## Testing
 
