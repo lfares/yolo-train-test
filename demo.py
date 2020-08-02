@@ -10,15 +10,34 @@ detector = Yolo()
 
 if type == "--VIDEO":
     cap = cv2.VideoCapture(path)
+    print(path)
+    if not cap.isOpened():
+        print("Error opening video stream or file")
+
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+
+    if not os.path.isdir("output"):
+        os.mkdir("output")
+    save_path = "output/" + path.split('/')[2].split('.')[0] + '.avi'
+
+    out = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width, frame_height))
+
     r, frame = cap.read()
     while r:
         output = detector.detect(frame)
-        cv2.imshow("Output", output)
-        k = cv2.waitKey(1)
-        if k == 0xFF & ord("q"):
-            break
+        print("FRAME NUMBER: ", cap.get(cv2.CAP_PROP_POS_FRAMES))
+        out.write(output)
+        # cv2.imshow("Output", output)
+        # k = cv2.waitKey(1)
+        # if k == 0xFF & ord("q"):
+        #     break
 
         r, frame = cap.read()
+    cap.release()
+    out.release()
+    # cv2.destroyAllWindows() 
+
 
 elif type == "--IMAGE":
     image_input = cv2.imread(path)
